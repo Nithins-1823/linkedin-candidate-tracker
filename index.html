@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nithin LinkedIn Database</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <div id="loginSection" class="login-container">
+      <div class="login-box">
+        <div class="brand" style="justify-content: center; margin-bottom: 20px">
+          <i class="fas fa-rocket"></i> Nithin.s
+        </div>
+        <h3>Welcome Back</h3>
+        <input id="email" type="email" placeholder="Email Address" />
+        <input id="password" type="password" placeholder="Password" />
+        <button id="loginBtn" onclick="login()">Sign In</button>
+      </div>
+    </div>
+
+    <div id="appSection" style="display: none">
+      <div class="container">
+        <main class="main">
+          <div class="topbar">
+            <div class="brand">
+              <i class="fas fa-rocket"></i>
+              <span
+                >Nithin.s
+                <p>Linkedin Database</p></span
+              >
+            </div>
+            <div class="search-wrapper">
+              <i class="fas fa-search"></i>
+              <input
+                type="text"
+                id="search"
+                placeholder="Search by name, company, or position..."
+              />
+            </div>
+            <button class="logout-btn" onclick="logout()">
+              <i class="fas fa-sign-out-alt"></i> Logout
+            </button>
+          </div>
+
+          <section class="form-card">
+            <h4 style="margin-bottom: 15px">Add New Candidate</h4>
+            <form id="candidateForm" class="form-grid">
+              <input id="name" placeholder="Full Name" required />
+              <input
+                id="emailInput"
+                type="email"
+                placeholder="Email"
+                required
+              />
+              <input id="phone" placeholder="Phone" required />
+              <input id="position" placeholder="Position" />
+              <input id="exp" type="number" placeholder="Exp (Yrs)" />
+              <input id="currentCTC" type="number" placeholder="Cur CTC" />
+              <input id="expectedCTC" type="number" placeholder="Exp CTC" />
+              <input id="noticePeriod" placeholder="Notice Period" />
+              <input id="location" placeholder="Location" />
+              <input id="currentCompany" placeholder="Current Company" />
+              <input id="targetCompany" placeholder="Target Company" />
+              <select id="status">
+                <option value="">Set Status</option>
+                <option>Not Selected</option>
+                <option>Submitted</option>
+                <option>Shortlisted</option>
+                <option>Rejected</option>
+              </select>
+
+              <div class="form-group" style="grid-column: span 1">
+                <label
+                  style="font-size: 0.75rem; font-weight: 600; color: #64748b"
+                  >Upload Resume (PDF)</label
+                >
+                <input
+                  id="resumeFile"
+                  type="file"
+                  accept="application/pdf"
+                  style="padding: 6px"
+                />
+              </div>
+
+              <input
+                id="comment"
+                placeholder="Comment/Notes"
+                style="grid-column: span 1"
+              />
+              <button type="submit" id="addBtn">
+                <i class="fas fa-plus"></i> Add
+              </button>
+            </form>
+          </section>
+
+          <div class="table-card">
+            <div class="table-header">
+              <h3 style="font-size: 1.1rem">Candidate Database</h3>
+              <div class="filters">
+                <select id="positionFilter" class="filter-select"></select>
+                <select id="expFilter" class="filter-select"></select>
+              </div>
+            </div>
+            <div class="table-scroll-wrapper">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Action</th>
+                    <th>Name</th>
+                    <th>Position</th>
+                    <th>Exp</th>
+                    <th>Cur CTC</th>
+                    <th>Exp CTC</th>
+                    <th>N.P</th>
+                    <th>Location</th>
+                    <th>Phone</th>
+                    <th>Email</th>
+                    <th>Current Company</th>
+                    <th>Target Company</th>
+                    <th>Comments</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody id="tableBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+
+    <div id="editModal" class="modal" style="display: none">
+      <div class="modal-content">
+        <h3 style="margin-bottom: 10px">Edit Candidate Details</h3>
+        <hr
+          style="
+            border: 0;
+            border-top: 1px solid var(--border);
+            margin-bottom: 20px;
+          "
+        />
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Full Name</label><input id="editName" />
+          </div>
+          <div class="form-group">
+            <label>Email Address</label><input id="editEmail" />
+          </div>
+          <div class="form-group">
+            <label>Phone Number</label><input id="editPhone" />
+          </div>
+          <div class="form-group">
+            <label>Job Position</label><input id="editPosition" />
+          </div>
+          <div class="form-group">
+            <label>Experience (Yrs)</label><input id="editExp" type="number" />
+          </div>
+          <div class="form-group">
+            <label>Current CTC</label
+            ><input id="editCurrentCTC" type="number" />
+          </div>
+          <div class="form-group">
+            <label>Expected CTC</label
+            ><input id="editExpectedCTC" type="number" />
+          </div>
+          <div class="form-group">
+            <label>Notice Period</label><input id="editNoticePeriod" />
+          </div>
+          <div class="form-group">
+            <label>Location</label><input id="editLocation" />
+          </div>
+          <div class="form-group">
+            <label>Current Company</label><input id="editCurrentCompany" />
+          </div>
+          <div class="form-group">
+            <label>Target Company</label><input id="editTargetCompany" />
+          </div>
+          <div class="form-group">
+            <label>Candidate Status</label>
+            <select id="editStatus">
+              <option>Not Selected</option>
+              <option>Submitted</option>
+              <option>Shortlisted</option>
+              <option>Rejected</option>
+            </select>
+          </div>
+          <div class="form-group" style="grid-column: span 2">
+            <label>Upload New Resume (Leave blank to keep current)</label>
+            <input
+              type="file"
+              id="editResumeFile"
+              accept="application/pdf"
+              style="padding: 6px"
+            />
+          </div>
+          <div class="form-group" style="grid-column: span 2">
+            <label>Comments / Notes</label>
+            <input id="editComment" />
+          </div>
+        </div>
+        <div
+          style="
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+          "
+        >
+          <button onclick="closeModal()" class="cancel-btn">Cancel</button>
+          <button id="saveEditBtn" onclick="saveEdit()" class="save-btn">
+            Save Changes
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div id="resumeModal" class="modal" style="display: none">
+      <div class="modal-content resume-modal-content">
+        <div class="resume-header">
+          <h3>Resume Preview</h3>
+          <div style="display: flex; gap: 10px">
+            <a
+              id="downloadResumeBtn"
+              href="#"
+              target="_blank"
+              class="save-btn"
+              style="text-decoration: none; font-size: 0.9rem"
+            >
+              <i class="fas fa-external-link-alt"></i> Open Full Screen
+            </a>
+            <button onclick="closeResumeModal()" class="cancel-btn">
+              <i class="fas fa-times"></i> Close
+            </button>
+          </div>
+        </div>
+        <hr
+          style="
+            border: 0;
+            border-top: 1px solid var(--border);
+            margin-bottom: 15px;
+          "
+        />
+        <iframe id="resumeIframe" src="" class="resume-iframe"></iframe>
+      </div>
+    </div>
+
+    <script type="module" src="app.js"></script>
+  </body>
+</html>
