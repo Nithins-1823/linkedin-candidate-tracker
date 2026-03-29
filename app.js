@@ -43,12 +43,17 @@ async function fetchCandidates() {
   const { data, error } = await supabase
     .from("candidates")
     .select("*")
-    .order("created_at", { ascending: false });
+    // .order("created_at", { ascending: false });
 
   if (error) {
     console.error("Error fetching data:", error);
     return;
   }
+  data.sort((a, b) => {
+    const nameA = (a.name || "").toLowerCase();
+    const nameB = (b.name || "").toLowerCase();
+    return nameA.localeCompare(nameB);
+  });
   allCandidates = data;
   populateFilters();
   applyFilters();
@@ -315,14 +320,14 @@ function renderTable(list) {
   table.innerHTML = "";
   const fields = [
     "name",
+    "email",
+    "phone",
     "position",
     "exp",
     "currentCTC",
     "expectedCTC",
     "noticePeriod",
     "location",
-    "phone",
-    "email",
     "currentCompany",
     "targetCompany",
     "comment",
